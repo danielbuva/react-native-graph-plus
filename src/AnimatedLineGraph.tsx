@@ -379,7 +379,10 @@ export function AnimatedLineGraph({
       'worklet'
 
       const newFingerX = incrementPanBy
-        ? Math.round(fingerX / incrementPanBy) * incrementPanBy
+        ? Math.min(
+            Math.max(Math.round(fingerX / incrementPanBy) * incrementPanBy, 0),
+            allPoints.length * incrementPanBy
+          )
         : fingerX
       const y = getYForX(commands.value, newFingerX)
 
