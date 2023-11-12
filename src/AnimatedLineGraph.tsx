@@ -377,18 +377,14 @@ export function AnimatedLineGraph({
   const setFingerX = useCallback(
     (fingerX: number) => {
       'worklet'
+      const newFingerX = incrementPanBy
+        ? Math.round(fingerX / incrementPanBy) * incrementPanBy
+        : fingerX
+      const y = getYForX(commands.value, newFingerX)
 
-      if (incrementPanBy && path.current) {
-        const point = path.current.getPoint(1)
-        circleX.value = point.x
-        circleY.value = point.y
-      } else {
-        const y = getYForX(commands.value, fingerX)
-
-        if (y != null) {
-          circleX.value = fingerX
-          circleY.value = y
-        }
+      if (y != null) {
+        circleX.value = newFingerX
+        circleY.value = y
       }
 
       if (isActive.value) pathEnd.value = fingerX / width
