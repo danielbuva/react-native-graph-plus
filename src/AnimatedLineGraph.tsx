@@ -390,7 +390,11 @@ export function AnimatedLineGraph({
             )) *
             (pointsInRange.length - 1)
         )
-        const point = path.current.getPoint(index)
+        const pointIndex = Math.min(
+          Math.max(index, 0),
+          pointsInRange.length - 1
+        )
+        const point = path.current.getPoint(pointIndex)
         circleX.value = point.x
         circleY.value = point.y
       } else {
