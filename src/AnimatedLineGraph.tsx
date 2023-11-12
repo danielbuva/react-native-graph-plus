@@ -378,20 +378,21 @@ export function AnimatedLineGraph({
     (fingerX: number) => {
       'worklet'
 
-      const newFingerX = incrementPanBy
-        ? Math.min(
-            Math.max(Math.round(fingerX / incrementPanBy) * incrementPanBy, 0),
-            allPoints.length * incrementPanBy
-          )
-        : fingerX
-      const y = getYForX(commands.value, newFingerX)
+      if (path.current && incrementPanBy) {
+        const index = Math.round((fingerX / width) * (allPoints.length - 1))
+        const point = path.current.getPoint(index)
+        circleX.value = point.x
+        circleY.value = point.y
+      } else {
+        const y = getYForX(commands.value, fingerX)
 
-      if (y != null) {
-        circleX.value = newFingerX
-        circleY.value = y
+        if (y != null) {
+          circleX.value = fingerX
+          circleY.value = y
+        }
       }
 
-      if (isActive.value) pathEnd.value = newFingerX / width
+      if (isActive.value) pathEnd.value = fingerX / width
     },
     // pathRange.x must be extra included in deps otherwise onPointSelected doesn't work, IDK why
     // eslint-disable-next-line react-hooks/exhaustive-deps
