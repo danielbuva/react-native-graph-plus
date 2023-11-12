@@ -67,7 +67,7 @@ export function AnimatedLineGraph({
   panGestureDelay = 300,
   SelectionDot = DefaultSelectionDot,
   enableIndicator = false,
-  panToEachPoint = false,
+  incrementPanBy,
   indicatorPulsating = false,
   horizontalPadding = enableIndicator
     ? Math.ceil(INDICATOR_RADIUS * INDICATOR_BORDER_MULTIPLIER)
@@ -378,8 +378,8 @@ export function AnimatedLineGraph({
     (fingerX: number) => {
       'worklet'
 
-      const newFingerX = panToEachPoint
-        ? Math.round(fingerX / allPoints.length) * allPoints.length
+      const newFingerX = incrementPanBy
+        ? Math.round(fingerX / incrementPanBy) * incrementPanBy
         : fingerX
       const y = getYForX(commands.value, newFingerX)
 

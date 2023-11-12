@@ -82,9 +82,9 @@ export type AnimatedLineGraphProps = BaseLineGraphProps & {
    */
   panGestureDelay?: number
   /**
-   * Enables indicator to pan only to each point
+   * Enables indicator to pan incremented by the number give
    */
-  panToEachPoint?: boolean
+  incrementPanBy?: number
 
   /**
    * Called for each point while the user is scrubbing/panning through the graph
