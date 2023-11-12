@@ -67,6 +67,7 @@ export function AnimatedLineGraph({
   panGestureDelay = 300,
   SelectionDot = DefaultSelectionDot,
   enableIndicator = false,
+  panToEachPoint = false,
   indicatorPulsating = false,
   horizontalPadding = enableIndicator
     ? Math.ceil(INDICATOR_RADIUS * INDICATOR_BORDER_MULTIPLIER)
@@ -131,9 +132,8 @@ export function AnimatedLineGraph({
     const path = Skia.Path.Make()
     path.moveTo(0, height / 2)
     for (let i = 0; i < width - 1; i += 2) {
-      const x = i
       const y = height / 2
-      path.cubicTo(x, y, x, y, x, y)
+      path.cubicTo(i, y, i, y, i, y)
     }
 
     return path
@@ -378,14 +378,17 @@ export function AnimatedLineGraph({
     (fingerX: number) => {
       'worklet'
 
-      const y = getYForX(commands.value, fingerX)
+      const newFingerX = panToEachPoint
+        ? Math.round(fingerX / allPoints.length) * allPoints.length
+        : fingerX
+      const y = getYForX(commands.value, newFingerX)
 
       if (y != null) {
-        circleX.value = fingerX
+        circleX.value = newFingerX
         circleY.value = y
       }
 
-      if (isActive.value) pathEnd.value = fingerX / width
+      if (isActive.value) pathEnd.value = newFingerX / width
     },
     // pathRange.x must be extra included in deps otherwise onPointSelected doesn't work, IDK why
     // eslint-disable-next-line react-hooks/exhaustive-deps
