@@ -379,10 +379,18 @@ export function AnimatedLineGraph({
       'worklet'
 
       if (path.current && incrementPanBy) {
-        const index = Math.round((fingerX / width) * (allPoints.length - 1))
-        const point = path.current.getPoint(index)
-        circleX.value = point.x
-        circleY.value = point.y
+        if (fingerX >= 0 && fingerX <= width) {
+          const index = Math.round((fingerX / width) * (allPoints.length - 1))
+
+          // Check if index is within the bounds of the points array
+          if (index >= 0 && index < allPoints.length) {
+            const point = path.current?.getPoint(index)
+            if (point) {
+              circleX.value = point.x
+              circleY.value = point.y
+            }
+          }
+        }
       } else {
         const y = getYForX(commands.value, fingerX)
 
