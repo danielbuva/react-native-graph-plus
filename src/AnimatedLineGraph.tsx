@@ -408,7 +408,15 @@ export function AnimatedLineGraph({
         stopPulsating()
       } else {
         onGestureEnd?.()
-        pointSelectedIndex.current = undefined
+        if (pointsInRange) {
+          const dataPoint = pointsInRange[pointsInRange.length - 1]
+          pointSelectedIndex.current = pointsInRange.length - 1
+          if (dataPoint) {
+            onPointSelected?.(dataPoint)
+          }
+        } else {
+          pointSelectedIndex.current = undefined
+        }
         pathEnd.value = 1
         startPulsating()
       }
@@ -417,7 +425,9 @@ export function AnimatedLineGraph({
       indicatorRadius,
       onGestureEnd,
       onGestureStart,
+      onPointSelected,
       pathEnd,
+      pointsInRange,
       startPulsating,
       stopPulsating,
     ]
