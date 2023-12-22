@@ -429,12 +429,6 @@ export function AnimatedLineGraph({
       if (isActive.value || fingerX) {
         setFingerX(fingerX)
         runOnJS(setFingerPoint)(fingerX)
-      } else if (pointsInRange) {
-        const dataPoint = pointsInRange[pointsInRange.length - 1]
-        pointSelectedIndex.current = pointsInRange.length - 1
-        if (dataPoint) {
-          onPointSelected?.(dataPoint)
-        }
       }
     },
     [isActive, setFingerX, width, x]
