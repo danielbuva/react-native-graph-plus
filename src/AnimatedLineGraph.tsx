@@ -429,6 +429,8 @@ export function AnimatedLineGraph({
       if (isActive.value || fingerX) {
         setFingerX(fingerX)
         runOnJS(setFingerPoint)(fingerX)
+      } else if (pointsInRange) {
+        onPointSelected?.(pointsInRange[pointsInRange.length - 1]!)
       }
     },
     [isActive, setFingerX, width, x]
